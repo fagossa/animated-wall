@@ -16,13 +16,18 @@ PImage prevFrame;
 MotionRegion rightRegion;
 MotionRegion leftRegion;
 
-Enemy rightEnemy;
-Enemy leftEnemy;
+ArrayList<Enemy> _enemies;
 
 Player player;
 ArrayList<Missile> _missiles;
-int _maxMissileCount = 20;
+int _maxMissileCount = 4;
 int _lastMissileSpawn = 0; 
+
+void drawAllEnemies() {
+  for (Enemy enemy : _enemies) {
+    enemy.draw();
+  }
+}
 
 void moveAllMissiles() {
   for (Missile missile : _missiles) {
@@ -43,6 +48,32 @@ void trySpawnMissile() {
   }
 }
 
+boolean isHittingEnemy(Enemy enemy, Point point) {
+  return true;
+}
+
+void checkHitboxes() {
+  ArrayList<Missile> toRemove = new ArrayList<Missile>();
+  // Check missiles hitboxes
+  for (Missile missile : _missiles) {
+    if (missile.Top.Y <= 0) {
+      toRemove.add(missile);
+      continue;
+    }
+    for (Enemy enemy : _enemies) {
+      if (isHittingEnemy(enemy, missile.Top)) {
+        // TODO: Call fill on enemy here.
+        toRemove.add(missile);
+        continue;
+      }
+    }
+  }
+  
+  // Remove all missiles that hit
+  for (Missile missile : toRemove) {
+    _missiles.remove(missile);
+  }
+}
 
 // ----
 void setup() {
@@ -68,8 +99,9 @@ void setup() {
     video.pixels.length,
     videoScale);
     
-   leftEnemy = new Enemy(width / 2 - 40, 50, 40);
-   rightEnemy = new Enemy(width / 2 + 20, 50, 40);
+    _enemies = new ArrayList<Enemy>();
+    _enemies.add(new Enemy(width / 2 - 40, 50, 40));
+    _enemies.add(new Enemy(width / 2 + 20, 50, 40));
     player = new Player(
     35, 45, //pos
     10, 60, // max x pos
@@ -98,6 +130,7 @@ void captureEvent(Capture video) {
     player.moveRight(2);
   }
   
+  checkHitboxes();
   moveAllMissiles();
 }
 
@@ -108,8 +141,7 @@ void draw() {
   
   rightRegion.draw();
   leftRegion.draw();
-  leftEnemy.draw();
-  rightEnemy.draw();
+  drawAllEnemies();
   
   player.draw();
   trySpawnMissile();

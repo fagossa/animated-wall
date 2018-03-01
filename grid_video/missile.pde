@@ -4,29 +4,29 @@ class Missile{
     _videoScale = videoScale;
     x *= _videoScale;
     y *= _videoScale;
-    _top = new Point(x, y - 40);
-    _right = new Point(x + 10, y - 10);
-    _bottom = new Point(x, y);
-    _left = new Point(x - 10, y - 10);
+    Top = new Point(x, y - 40);
+    Right = new Point(x + 10, y - 10);
+    Bottom = new Point(x, y);
+    Left = new Point(x - 10, y - 10);
   }
 
   
-  private Point _top;
-  private Point _right;
-  private Point _bottom;
-  private Point _left;
+  public Point Top;
+  public Point Right;
+  public Point Bottom;
+  public Point Left;
   private int speedFactor = 2;
   private int _videoScale;
   
   void move() {
-    this._top.Y -= speedFactor * _videoScale;
-    this._right.Y -= speedFactor * _videoScale;
-    this._bottom.Y -= speedFactor * _videoScale;
-    this._left.Y -= speedFactor * _videoScale;
+    this.Top.Y -= speedFactor * _videoScale;
+    this.Right.Y -= speedFactor * _videoScale;
+    this.Bottom.Y -= speedFactor * _videoScale;
+    this.Left.Y -= speedFactor * _videoScale;
   }
   
   void draw() {
     fill(0, 138, 253);
-    quad(_top.X, _top.Y, _right.X, _right.Y, _bottom.X, _bottom.Y, _left.X, _left.Y);
+    quad(Top.X, Top.Y, Right.X, Right.Y, Bottom.X, Bottom.Y, Left.X, Left.Y);
   }
 }
