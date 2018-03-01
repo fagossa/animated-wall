@@ -13,7 +13,8 @@ Capture video;
 // Previous Frame
 PImage prevFrame;
 
-MotionRegion rightRegion; 
+MotionRegion rightRegion;
+MotionRegion leftRegion;
 
 // ----
 void setup() {
@@ -30,7 +31,12 @@ void setup() {
   prevFrame = createImage(video.width, video.height, RGB);
   
   rightRegion = new MotionRegion(
-    1, 1, 10, 10, 
+    10, 40, 10, 10, 
+    video.pixels.length,
+    videoScale);
+
+  leftRegion = new MotionRegion(
+    60, 40, 10, 10, 
     video.pixels.length,
     videoScale);
 }
@@ -57,7 +63,10 @@ void drawGrid() {
   drawAllCells();
   
   rightRegion.motionBetween(video, prevFrame);
+  leftRegion.motionBetween(video, prevFrame);
+  
   rightRegion.draw();
+  leftRegion.draw();
 }
 
 void drawAllCells() {
