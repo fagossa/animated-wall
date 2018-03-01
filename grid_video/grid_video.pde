@@ -9,6 +9,7 @@ int videoScale = 8;
 // Number of columns and rows in our system
 int cols, rows;
 Capture video;
+PImage videoMirror;
 
 // Previous Frame
 PImage prevFrame;
@@ -84,6 +85,11 @@ void setup() {
   rows = height/videoScale;
 
   video = new Capture(this, 80, 60);
+  color c = color(255, 255, 255);
+  tint(c,0);
+  
+  videoMirror = new PImage(video.width,video.height);
+  
   video.start();
 
   // Create an empty image the same size as the video
@@ -116,18 +122,20 @@ void captureEvent(Capture video) {
   prevFrame.updatePixels();
 
   video.read();
-  
+ 
   // update state
-  video.loadPixels();
+  updateVideo(video,videoMirror);
   prevFrame.loadPixels();
+
+ 
   
   rightRegion.motionBetween(video, prevFrame);
   leftRegion.motionBetween(video, prevFrame);
   
   if (rightRegion.hasMoved()) {
-    player.moveLeft(2);
-  } else if (leftRegion.hasMoved()) {
     player.moveRight(2);
+  } else if (leftRegion.hasMoved()) {
+    player.moveLeft(2);
   }
   
   checkHitboxes();
@@ -163,9 +171,21 @@ void drawCell(int i, int j) {
   int y = j*videoScale;
 
   // Looking up the appropriate color in the pixel array
-  color c = video.pixels[i + j * video.width];
+  color c = videoMirror.pixels[i + j * videoMirror.width];
   
   fill(c);
   stroke(0);
   rect(x, y, videoScale, videoScale);
+}
+
+void updateVideo(Capture video,PImage videoMirror){
+   video.loadPixels();
+  //Mirroring the video
+  for(int x = 0; x < video.width; x++){
+    for(int y = 0; y < video.height; y++){
+      videoMirror.pixels[x+y*video.width] = video.pixels[(video.width-(x+1))+y*video.width];
+    }
+  }
+  videoMirror.updatePixels();
+  image(videoMirror,0,0);
 }
