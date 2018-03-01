@@ -62,7 +62,7 @@ void checkHitboxes() {
     }
     for (Enemy enemy : _enemies) {
       if (isHittingEnemy(enemy, missile.Top)) {
-        // TODO: Call fill on enemy here.
+        enemy.onHit();
         toRemove.add(missile);
         continue;
       }
