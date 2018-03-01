@@ -13,8 +13,7 @@ Capture video;
 // Previous Frame
 PImage prevFrame;
 
-// How different must a pixel be to be a "motion" pixel
-float threshold = 50;
+MotionRegion rightRegion; 
 
 // ----
 void setup() {
@@ -29,6 +28,11 @@ void setup() {
 
   // Create an empty image the same size as the video
   prevFrame = createImage(video.width, video.height, RGB);
+  
+  rightRegion = new MotionRegion(
+    1, 1, 10, 10, 
+    video.pixels.length,
+    videoScale);
 }
 
 void captureEvent(Capture video) {
@@ -41,40 +45,39 @@ void captureEvent(Capture video) {
 
 void draw() {
   background(0);
-  drawGrid(10);
+  drawGrid();
 }
 
-void drawGrid(int threshold) {
+void drawGrid() {
   //image(video, 0, 0); // You don't need to display it to analyze it!
 
   video.loadPixels();
   prevFrame.loadPixels();
+  
+  drawAllCells();
+  
+  rightRegion.motionBetween(video, prevFrame);
+  rightRegion.draw();
+}
 
-  float[] motion = motionBetween(video, prevFrame);
-  //printArr(motion);
-
+void drawAllCells() {
+  rightRegion.motionBetween(video, prevFrame);
   for (int i = 0; i < cols; i++) { // columns
     for (int j = 0; j < rows; j++) { // rows
-      drawCell(i, j, motion, threshold);
+      drawCell(i, j);
     }
   }
 }
 
-void printArr(float[] numbers) {
-  for (int i = 0; i < video.pixels.length; i ++ ) {
-    print(numbers[i] + " ");
-  }
-}
 
 // Scaling up to draw a rectangle at (x,y)
-void drawCell(int i, int j, float[] motion, int threshold) {
+void drawCell(int i, int j) {
   int x = i*videoScale;
   int y = j*videoScale;
 
   // Looking up the appropriate color in the pixel array
   color c = video.pixels[i + j * video.width];
-  // TODO: verify threshold
-
+  
   fill(c);
   stroke(0);
   rect(x, y, videoScale, videoScale);
