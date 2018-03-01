@@ -20,6 +20,29 @@ Enemy rightEnemy;
 Enemy leftEnemy;
 
 Player player;
+ArrayList<Missile> _missiles;
+int _maxMissileCount = 20;
+int _lastMissileSpawn = 0; 
+
+void moveAllMissiles() {
+  for (Missile missile : _missiles) {
+    missile.move();
+  }
+}
+
+void drawAllMissiles() {
+  for (Missile missile : _missiles) {
+    missile.draw();
+  }
+}
+
+void trySpawnMissile() {
+  if (_missiles.size() < _maxMissileCount && abs(_lastMissileSpawn - millis()) > 1000) {
+    _missiles.add(new Missile(player.x, player.y, videoScale));
+    _lastMissileSpawn = millis();
+  }
+}
+
 
 // ----
 void setup() {
@@ -51,6 +74,8 @@ void setup() {
     35, 45, //pos
     10, 60, // max x pos
     videoScale);
+    
+    _missiles = new ArrayList<Missile>();
 }
 
 void captureEvent(Capture video) {
@@ -72,6 +97,8 @@ void captureEvent(Capture video) {
   } else if (leftRegion.hasMoved()) {
     player.moveRight(2);
   }
+  
+  moveAllMissiles();
 }
 
 void draw() {
@@ -85,6 +112,8 @@ void draw() {
   rightEnemy.draw();
   
   player.draw();
+  trySpawnMissile();
+  drawAllMissiles();
 }
 
 void drawAllCells() {
