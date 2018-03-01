@@ -15,7 +15,6 @@ class MotionRegion {
     this.h = h;
     this.motions = new float[pixelsAmt];
     this.videoScale = videoScale;
-    //println("pixels=" + pixelsAmt);
   }
   
   void motionBetween(Capture video, PImage prevFrame) {
@@ -60,6 +59,10 @@ class MotionRegion {
   int k(int i, int j, Capture video) {
     return i + (j * video.width);
   }
+  
+  boolean hasMoved() {
+    return moved;
+  }
  
   void draw() {
     color c = moved ? color(255, 255, 255) : color(0, 0, 0);
@@ -67,7 +70,7 @@ class MotionRegion {
     fill(c);
     stroke(0);
   
-    rect(
+    ellipse(
       x1 * videoScale, 
       y1 * videoScale, 
       w * videoScale, 

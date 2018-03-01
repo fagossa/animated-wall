@@ -36,7 +36,7 @@ void setup() {
     videoScale);
 
   leftRegion = new MotionRegion(
-    60, 40, 10, 10, 
+    70, 40, 10, 10, 
     video.pixels.length,
     videoScale);
 }
