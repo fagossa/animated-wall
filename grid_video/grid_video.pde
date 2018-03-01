@@ -38,7 +38,7 @@ void drawAllMissiles() {
 
 void trySpawnMissile() {
   if (_missiles.size() < _maxMissileCount && abs(_lastMissileSpawn - millis()) > 1000) {
-    _missiles.add(new Missile(player.x, player.y));
+    _missiles.add(new Missile(player.x, player.y, videoScale));
     _lastMissileSpawn = millis();
   }
 }

@@ -1,10 +1,13 @@
 class Missile{
 
-  public Missile(float x, float y) {
-    _top = new Point(x, y - 20);
-    _right = new Point(x + 20, y - 10);
+  public Missile(float x, float y, int videoScale) {
+    _videoScale = videoScale;
+    x *= _videoScale;
+    y *= _videoScale;
+    _top = new Point(x, y - 40);
+    _right = new Point(x + 10, y - 10);
     _bottom = new Point(x, y);
-    _left = new Point(x - 20, y - 10);
+    _left = new Point(x - 10, y - 10);
   }
   
   class Point{
@@ -22,12 +25,13 @@ class Missile{
   private Point _bottom;
   private Point _left;
   private int speedFactor = 2;
-
+  private int _videoScale;
+  
   void move() {
-    this._top.Y -= speedFactor;
-    this._right.Y -= speedFactor;
-    this._bottom.Y -= speedFactor;
-    this._left.Y -= speedFactor;
+    this._top.Y -= speedFactor * _videoScale;
+    this._right.Y -= speedFactor * _videoScale;
+    this._bottom.Y -= speedFactor * _videoScale;
+    this._left.Y -= speedFactor * _videoScale;
   }
   
   void draw() {
