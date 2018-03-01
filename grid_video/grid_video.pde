@@ -50,7 +50,7 @@ void trySpawnMissile() {
 }
 
 boolean isHittingEnemy(Enemy enemy, Point point) {
-  return true;
+  return (enemy.topRight.X >= point.X && enemy.topLeft.X <= point.X && enemy.bottomRight.Y >= point.Y);
 }
 
 void checkHitboxes() {
