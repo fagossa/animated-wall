@@ -9,16 +9,7 @@ class Missile{
     _bottom = new Point(x, y);
     _left = new Point(x - 10, y - 10);
   }
-  
-  class Point{
-    
-    public Point(float x, float y) {
-      X = x;
-      Y = y;
-    }
-    public float X;
-    public float Y;
-  }
+
   
   private Point _top;
   private Point _right;
