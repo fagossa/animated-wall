@@ -2,11 +2,9 @@ class Player {
   
   private int x, y;
 
-  private int w = 10;
-  private int h = 10;
   private int videoScale;
-  
   private int minx, maxx;
+  private PShape plane;
   
   public Player(int x,int y, int minx, int maxx, int videoScale) {
     this.x=x;
@@ -14,16 +12,21 @@ class Player {
     this.minx=minx;
     this.maxx=maxx;
     this.videoScale = videoScale;
+    this.loadPlane();
+  }
+  
+  private void loadPlane(){
+    plane=loadShape("warplane.svg");
   }
   
   void moveLeft(int delta) {
     int newx = this.x - delta;
-    this.x = newx > minx ? newx : this.x;
+    this.x = newx > minx ? newx : this.x ;
   }
   
   void moveRight(int delta) {
     int newx = this.x + delta;
-    this.x = newx < maxx ? newx : this.x;
+    this.x = newx < maxx? newx: this.x;
   }
   
   void draw() {
@@ -32,12 +35,7 @@ class Player {
     fill(c);
     stroke(0);
   
-    rect(
-      x * videoScale,
-      y * videoScale,
-      w * videoScale,
-      h * videoScale
-    );
+    shape(plane,x*videoScale,y*videoScale-20,15*videoScale,15*videoScale);
   }
   
 }
