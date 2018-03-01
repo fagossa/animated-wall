@@ -16,6 +16,8 @@ PImage prevFrame;
 MotionRegion rightRegion;
 MotionRegion leftRegion;
 
+Player player;
+
 // ----
 void setup() {
   size(640, 480);
@@ -31,13 +33,18 @@ void setup() {
   prevFrame = createImage(video.width, video.height, RGB);
   
   rightRegion = new MotionRegion(
-    10, 40, 10, 10, 
+    10, 50, 10, 10, 
     video.pixels.length,
     videoScale);
 
   leftRegion = new MotionRegion(
-    70, 40, 10, 10, 
+    70, 50, 10, 10, 
     video.pixels.length,
+    videoScale);
+    
+    player = new Player(
+    35, 45, //pos
+    10, 60, // max x pos
     videoScale);
 }
 
@@ -47,26 +54,30 @@ void captureEvent(Capture video) {
   prevFrame.updatePixels();
 
   video.read();
-}
-
-void draw() {
-  background(0);
-  drawGrid();
-}
-
-void drawGrid() {
-  //image(video, 0, 0); // You don't need to display it to analyze it!
-
+  
+  // update state
   video.loadPixels();
   prevFrame.loadPixels();
-  
-  drawAllCells();
   
   rightRegion.motionBetween(video, prevFrame);
   leftRegion.motionBetween(video, prevFrame);
   
+  if (rightRegion.hasMoved()) {
+    player.moveLeft(2);
+  } else if (leftRegion.hasMoved()) {
+    player.moveRight(2);
+  }
+}
+
+void draw() {
+  background(0);
+  
+  drawAllCells();
+  
   rightRegion.draw();
   leftRegion.draw();
+  
+  player.draw();
 }
 
 void drawAllCells() {
@@ -77,7 +88,6 @@ void drawAllCells() {
     }
   }
 }
-
 
 // Scaling up to draw a rectangle at (x,y)
 void drawCell(int i, int j) {
