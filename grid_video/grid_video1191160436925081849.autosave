@@ -13,12 +13,6 @@ Capture video;
 // Previous Frame
 PImage prevFrame;
 
-MotionRegion rightRegion;
-MotionRegion leftRegion;
-
-Enemy rightEnemy;
-Enemy leftEnemy;
-
 float x1, x2;
 float y1, y2;
 
@@ -38,19 +32,6 @@ void setup() {
 
   // Create an empty image the same size as the video
   prevFrame = createImage(video.width, video.height, RGB);
-  
-  rightRegion = new MotionRegion(
-    10, 40, 10, 10, 
-    video.pixels.length,
-    videoScale);
-
-  leftRegion = new MotionRegion(
-    70, 40, 10, 10, 
-    video.pixels.length,
-    videoScale);
-    
-   leftEnemy = new Enemy(width / 2 - 40, 50, 40);
-   rightEnemy = new Enemy(width / 2 + 20, 50, 40);
 }
 
 void captureEvent(Capture video) {
@@ -63,45 +44,61 @@ void captureEvent(Capture video) {
 
 void draw() {
   background(0);
-  drawGrid();
+  drawGrid(10);
+  drawEnemy();
 }
 
+void drawEnemy() {
+  pushMatrix();
+ 
+  fill(0, 138, 253);
+  stroke(0, 138, 253);
+  //translate(width/2, height*0.7);
+  //rotate(PI/0.87);
+  //rect(50, 50, 50, 200);
+  //rect(110, 50, 50, 200);
+  polygon(50, 50, 50, 4);
+  polygon(110, 50, 50, 4);
+  popMatrix();
+  
+  if (abs(mouseX - x1) < hr &&
+      abs(mouseY - y1) < vr) {
+    x += random(-5, 5);
+    y += random(-5, 5);
+  }
+}
 
-void drawGrid() {
+void drawGrid(int threshold) {
   //image(video, 0, 0); // You don't need to display it to analyze it!
 
   video.loadPixels();
   prevFrame.loadPixels();
-  
-  drawAllCells();
-  
-  rightRegion.motionBetween(video, prevFrame);
-  leftRegion.motionBetween(video, prevFrame);
-  
-  rightRegion.draw();
-  leftRegion.draw();
-  leftEnemy.draw();
-  rightEnemy.draw();
-}
 
-void drawAllCells() {
-  rightRegion.motionBetween(video, prevFrame);
+  float[] motion = motionBetween(video, prevFrame);
+  //printArr(motion);
+
   for (int i = 0; i < cols; i++) { // columns
     for (int j = 0; j < rows; j++) { // rows
-      drawCell(i, j);
+      drawCell(i, j, motion, threshold);
     }
   }
 }
 
+void printArr(float[] numbers) {
+  for (int i = 0; i < video.pixels.length; i ++ ) {
+    print(numbers[i] + " ");
+  }
+}
 
 // Scaling up to draw a rectangle at (x,y)
-void drawCell(int i, int j) {
+void drawCell(int i, int j, float[] motion, int threshold) {
   int x = i*videoScale;
   int y = j*videoScale;
 
   // Looking up the appropriate color in the pixel array
   color c = video.pixels[i + j * video.width];
-  
+  // TODO: verify threshold
+
   fill(c);
   stroke(0);
   rect(x, y, videoScale, videoScale);
