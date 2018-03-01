@@ -16,6 +16,9 @@ PImage prevFrame;
 MotionRegion rightRegion;
 MotionRegion leftRegion;
 
+Enemy rightEnemy;
+Enemy leftEnemy;
+
 Player player;
 
 // ----
@@ -42,6 +45,8 @@ void setup() {
     video.pixels.length,
     videoScale);
     
+   leftEnemy = new Enemy(width / 2 - 40, 50, 40);
+   rightEnemy = new Enemy(width / 2 + 20, 50, 40);
     player = new Player(
     35, 45, //pos
     10, 60, // max x pos
@@ -76,6 +81,8 @@ void draw() {
   
   rightRegion.draw();
   leftRegion.draw();
+  leftEnemy.draw();
+  rightEnemy.draw();
   
   player.draw();
 }
