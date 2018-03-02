@@ -145,7 +145,7 @@ class EntitiesManager {
         toRemove.add(missile);
         continue;
       }
-      if (missile.hitResult.HitPoint.Y >= missile.Top.Y) {
+      if (missile.hitResult != null && missile.hitResult.HitPoint.Y >= missile.Top.Y) {
         missile.hitResult.HitEnemy.onHit();
         explosionSound.play();
         toRemove.add(missile);
