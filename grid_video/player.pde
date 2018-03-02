@@ -4,6 +4,9 @@ class Player {
 
   private int videoScale;
   private int minx, maxx;
+  
+  private int old_x, old_y;
+ 
   private PShape plane;
   private int shapeWidth;
   private int shapeHeight;
@@ -11,6 +14,10 @@ class Player {
   public Player(int x,int y, int minx, int maxx, int videoScale) {
     this.x=x;
     this.y=y;
+ 
+    this.old_x = x;
+    this.old_y = y;
+    
     this.minx=minx;
     this.maxx=maxx;
     this.videoScale = videoScale;
@@ -34,6 +41,11 @@ class Player {
     this.x = newx < maxx? newx: this.x;
   }
   
+  void reset() {
+   this.x = old_x;
+   this.y = old_y;
+  }
+ 
   void draw() {
     int xHead=(x*videoScale)-this.shapeWidth/2;
     shape(plane,xHead,y*videoScale-20,this.shapeWidth,this.shapeHeight);

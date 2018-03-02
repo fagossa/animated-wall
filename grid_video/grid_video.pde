@@ -18,6 +18,8 @@ MotionRegion rightRegion;
 MotionRegion leftRegion;
 EntitiesManager _entitiesManager;
 
+Timer timer;
+
 // ----
 void setup() {
   size(640, 480);
@@ -42,9 +44,11 @@ void setup() {
     70, 50, 10, 10, 
     video.pixels.length,
     videoScale);
-    
+
     _entitiesManager = new EntitiesManager();
     _entitiesManager.InitializeEntities();
+    timer = new Timer(new Point(width - 120, 30));
+    timer.start();
 }
 
 void captureEvent(Capture video) {
@@ -96,6 +100,7 @@ void draw() {
   _entitiesManager.DrawAllEnemies();
   _entitiesManager.SpawnAndMoveMissiles();
   _entitiesManager.DrawAllMissiles();
+  timer.draw();
 }
 
 void drawAllCells() {
