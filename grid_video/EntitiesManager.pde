@@ -9,7 +9,7 @@ class EntitiesManager {
   public EntitiesManager() {
   }
   
-  public void InitializeEntities() {
+  public void setup() {
     _lastMissileSpawn = 0;
     Enemies = new ArrayList<Enemy>();
     Enemies.add(new Enemy(width / 2 - 40, 50, 40));
@@ -23,23 +23,26 @@ class EntitiesManager {
     Missiles = new ArrayList<Missile>();
   }
   
-  public void DrawPlayer() {
+  void draw() {
     Player.draw();
+    drawAllEnemies();
+    spawnAndMoveMissiles();
+    drawAllMissiles();
   }
   
-  public void SpawnAndMoveMissiles() {
+  private void spawnAndMoveMissiles() {
     trySpawnMissile();
     moveAllMissiles();
     checkHitboxes();
   }
 
-  public void DrawAllEnemies() {
+  private void drawAllEnemies() {
     for (Enemy enemy : Enemies) {
       enemy.draw();
     }
   }
   
-  public void DrawAllMissiles() {
+  private void drawAllMissiles() {
     for (Missile missile : Missiles) {
       missile.draw();
     }

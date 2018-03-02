@@ -1,5 +1,6 @@
 
 import processing.video.*;
+import processing.sound.*;
 
 // Size of each cell in the grid, ratio of window size to video size
 // 80 * 8 = 640
@@ -20,6 +21,8 @@ EntitiesManager _entitiesManager;
 
 Timer timer;
 
+SoundFile endGameSound;
+
 // ----
 void setup() {
   size(640, 480);
@@ -30,6 +33,8 @@ void setup() {
 
   video = new Capture(this, 80, 60);
   video.start();
+  
+  endGameSound = new SoundFile(this, "end-game.mp3");
   
   // Create an empty image the same size as the video
   videoMirror = createImage(video.width, video.height, RGB);
@@ -46,7 +51,7 @@ void setup() {
     videoScale);
 
     _entitiesManager = new EntitiesManager();
-    _entitiesManager.InitializeEntities();
+    _entitiesManager.setup();
     timer = new Timer(new Point(width - 120, 30));
     timer.start();
 }
@@ -85,7 +90,7 @@ void flipVideo(Capture video, PImage videoMirror) {
 // Game reset
 void keyPressed() {
   if (key == 'n') {
-      _entitiesManager.InitializeEntities();
+      _entitiesManager.setup();
       timer.start();
     }
 }
@@ -97,10 +102,7 @@ void draw() {
   rightRegion.draw();
   leftRegion.draw();
   
-  _entitiesManager.DrawPlayer();
-  _entitiesManager.DrawAllEnemies();
-  _entitiesManager.SpawnAndMoveMissiles();
-  _entitiesManager.DrawAllMissiles();
+  _entitiesManager.draw();
   timer.draw();
 }
 
