@@ -1,5 +1,13 @@
 class Missile{
 
+  
+  public Point Top;
+  public Point Right;
+  public Point Bottom;
+  public Point Left;
+  private int speedFactor = 2;
+  private int _videoScale;
+  
   public Missile(float x, float y, int videoScale) {
     _videoScale = videoScale;
     x *= _videoScale;
@@ -10,14 +18,6 @@ class Missile{
     Left = new Point(x - 10, y - 10);
   }
 
-  
-  public Point Top;
-  public Point Right;
-  public Point Bottom;
-  public Point Left;
-  private int speedFactor = 2;
-  private int _videoScale;
-  
   void move() {
     this.Top.Y -= speedFactor * _videoScale;
     this.Right.Y -= speedFactor * _videoScale;
