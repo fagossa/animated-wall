@@ -21,7 +21,7 @@ EntitiesManager _entitiesManager;
 
 // ----
 void setup() {
-  size(640, 480);
+  size(800, 600);
 
   // Initialize columns and rows
   cols = width/videoScale;
