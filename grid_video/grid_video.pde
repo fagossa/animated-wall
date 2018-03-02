@@ -50,7 +50,8 @@ void setup() {
   game = new EntitiesManager(
     new SoundFile(this, "end-game.mp3"), 
     new SoundFile(this, "explosion.mp3"),
-    new SoundFile(this, "hit.mp3"));
+    new SoundFile(this, "hit.mp3"),
+    new SoundFile(this, "rebound.mp3"));
   game.setup();
 }
 

@@ -9,14 +9,16 @@ class EntitiesManager {
   private SoundFile endGameSound;
   private SoundFile explosionSound;
   private SoundFile hitSound;
+  private SoundFile reboundSound;
 
   private boolean gameOver = false;
   private Timer timer;
 
-  public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound, SoundFile hitSound) {
+  public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound, SoundFile hitSound, SoundFile reboundSound) {
      this.endGameSound = endGameSound;
      this.explosionSound = explosionSound;
      this.hitSound = hitSound;
+     this.reboundSound = reboundSound;
 
      Enemies = new ArrayList<Enemy>();
 
@@ -157,6 +159,7 @@ class EntitiesManager {
       }
       if (missile.missed()) {
         if (missile.hitResult.HitEnemy.isFull()) {
+          reboundSound.play();
           missile.rebound();
         }
         else {
