@@ -1,4 +1,4 @@
-class EntitiesManager {
+ class EntitiesManager {
 
   public Player Player;
   public ArrayList<Enemy> Enemies;
@@ -140,15 +140,21 @@ class EntitiesManager {
     ArrayList<Missile> toRemove = new ArrayList<Missile>();
     // Check missiles hitboxes
     for (Missile missile : Missiles) {
-      if (missile.Top.Y <= 0) {
+      if (missile.Top.Y <= 0 || missile.Top.X <= 0 
+      || missile.Top.X >= width || missile.Top.Y >= height) {
         explosionSound.play();
         toRemove.add(missile);
         continue;
       }
       if (missile.hitResult != null && missile.hitResult.HitPoint.Y >= missile.Top.Y) {
-        missile.hitResult.HitEnemy.onHit();
-        explosionSound.play();
-        toRemove.add(missile);
+        if (missile.hitResult.HitEnemy.isFull()) {
+          missile.rebound();
+        }
+        else {
+          missile.hitResult.HitEnemy.onHit();
+          explosionSound.play();
+          toRemove.add(missile);
+        }
       }
     }
 

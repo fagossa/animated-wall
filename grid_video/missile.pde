@@ -5,8 +5,10 @@ class Missile{
   public Point Right;
   public Point Bottom;
   public Point Left;
-  private int speedFactor = 2;
+  private float YspeedFactor = 2;
+  private float XspeedFactor;
   private int _videoScale;
+  private boolean _hasRebounded;
   
   public Missile(float x, float y, int videoScale) {
     _videoScale = videoScale;
@@ -17,12 +19,30 @@ class Missile{
     Bottom = new Point(x, y);
     Left = new Point(x - 10, y - 10);
   }
+  
+  void rebound() {
+    _hasRebounded = true;
+    XspeedFactor = random(-2,2);
+    YspeedFactor = random(1,2);
+  }
 
   void move() {
-    this.Top.Y -= speedFactor * _videoScale;
-    this.Right.Y -= speedFactor * _videoScale;
-    this.Bottom.Y -= speedFactor * _videoScale;
-    this.Left.Y -= speedFactor * _videoScale;
+    if (_hasRebounded) {
+      this.Top.Y += YspeedFactor * _videoScale;
+      this.Right.Y += YspeedFactor * _videoScale;
+      this.Bottom.Y += YspeedFactor * _videoScale;
+      this.Left.Y += YspeedFactor * _videoScale;
+      this.Top.X += XspeedFactor * _videoScale;
+      this.Right.X += XspeedFactor * _videoScale;
+      this.Bottom.X += XspeedFactor * _videoScale;
+      this.Left.X += XspeedFactor * _videoScale;
+    }
+    else {
+      this.Top.Y -= YspeedFactor * _videoScale;
+      this.Right.Y -= YspeedFactor * _videoScale;
+      this.Bottom.Y -= YspeedFactor * _videoScale;
+      this.Left.Y -= YspeedFactor * _videoScale;
+    }
   }
   
   void draw() {
