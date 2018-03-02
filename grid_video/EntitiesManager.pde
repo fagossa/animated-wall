@@ -92,9 +92,41 @@ class EntitiesManager {
     }
   }
   
+  private void GetSmallestPointInList(ArrayList<Point> allPoints, Point interesection) {
+    for (Point point : allPoints) {
+      if (point.Y > interesection.Y) {
+        interesection.X = point.X;
+        interesection.Y = point.Y;
+      }
+    }
+  }
+  
+  private boolean GetIntersectionWithEnemies(Missile missile, Point intersection) {
+    Segment missileToTop = new Segment(missile.Top, new Point (missile.Top.X, 0));
+    ArrayList<Point> allInterectionPoints = new ArrayList<Point>();
+    for (Enemy enemy : Enemies) {
+      for (Segment enemySegment : enemy.segments) {
+        Point tmpIntersection = new Point(0,0);
+        if (missileToTop.GetIntersectionPoint(enemySegment, tmpIntersection)) {
+          allInterectionPoints.add(tmpIntersection);
+        }
+      }
+    }
+    if (allInterectionPoints.size() > 0) {
+      GetSmallestPointInList(allInterectionPoints, intersection);
+      return true;
+    }
+    return false;
+  }
+  
   private void trySpawnMissile() {
     if (Missiles.size() < _maxMissileCount && abs(_lastMissileSpawn - millis()) > 1000) {
-      Missiles.add(new Missile(Player.x, Player.y, videoScale));
+      Missile newMissile = new Missile(Player.x, Player.y, videoScale);
+      Point intersection = new Point(0,0);
+      if (GetIntersectionWithEnemies(newMissile, intersection)) {
+        printArray(intersection);
+      }
+      Missiles.add(newMissile);
       _lastMissileSpawn = millis();
     }
   }

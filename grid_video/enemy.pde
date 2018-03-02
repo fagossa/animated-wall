@@ -7,6 +7,7 @@ class Enemy {
   public Point topRight;
   public Point bottomLeft;
   public Point bottomRight;
+  public ArrayList<Segment> segments;
 
   public Enemy(float x1, float y1, float w) {
     this.x1 = x1;
@@ -17,6 +18,12 @@ class Enemy {
     topRight = new Point(x1 + w, y1);
     bottomLeft = new Point(x1 - w, y1 + h);
     bottomRight = new Point(x1, y1 + h);
+    
+    segments = new ArrayList<Segment>();
+    segments.add(new Segment(topLeft, topRight));
+    segments.add(new Segment(topRight, bottomRight));
+    segments.add(new Segment(bottomRight, bottomLeft));
+    segments.add(new Segment(bottomLeft, topLeft));
   }
 
   void draw() {

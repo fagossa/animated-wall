@@ -63,9 +63,14 @@ public class Segment
         return abs(this.LineEquation.A - bSegment.LineEquation.A) < epsilon && abs(this.LineEquation.B - bSegment.LineEquation.B) > epsilon;
     }
 
+    public boolean IsSame (Segment aSegment, Segment bSegment)
+    {
+        return aSegment.LineEquation.A == bSegment.LineEquation.A && aSegment.LineEquation.B == bSegment.LineEquation.B;
+    }
+
     public boolean GetIntersectionPoint(Segment bSegment, Point intersectionPoint)
     {
-        if (this == bSegment)
+        if (IsSame(this, bSegment))
         {
             return false;
         }
@@ -108,11 +113,11 @@ public class Segment
         return true;
     }
 
-      public boolean Intersect(Segment bSegment)
-      {
-          Point intersection = new Point(0,0);
-          return this.GetIntersectionPoint(bSegment, intersection);
-      }
+    public boolean Intersect(Segment bSegment)
+    {
+        Point intersection = new Point(0,0);
+        return this.GetIntersectionPoint(bSegment, intersection);
+    }
         
     public boolean PointIsOnSegment(Point point)
     {
