@@ -54,7 +54,7 @@ void setup() {
   _enemies.add(new Enemy(width / 2 + 20, 50, 40));
   
   player = new Player(
-    35, 45, //pos
+    10, 45, //pos
     10, 60, // max x pos
     videoScale);
 
