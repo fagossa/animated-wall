@@ -32,8 +32,8 @@ class EntitiesManager {
     Enemies.add(new Enemy(width / 2 + 20, 50, 40));
 
     Player = new Player(
-      10, 45, //pos
-      10, 60, // max x pos
+      18, 45, //pos
+      18, 57, // max x pos
       videoScale);
 
     Missiles = new ArrayList<Missile>();
