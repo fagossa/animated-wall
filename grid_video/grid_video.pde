@@ -24,13 +24,13 @@ EntitiesManager game;
 
 // ----
 void setup() {
-  size(640, 480);
+  size(1280, 960);
 
   // Initialize columns and rows
   cols = width/videoScale;
   rows = height/videoScale;
 
-  video = new Capture(this, 80, 60);
+  video = new Capture(this, 160, 120);
   video.start();
   
   // Create an empty image the same size as the video
@@ -38,12 +38,12 @@ void setup() {
   prevFrame   = createImage(video.width, video.height, RGB);
   
   leftRegion = new MotionRegion(
-    10, 50, 10, 10, 
+    10, 110, 10, 10, 
     video.pixels.length,
     videoScale);
 
   rightRegion = new MotionRegion(
-    70, 50, 10, 10, 
+    150, 110, 10, 10, 
     video.pixels.length,
     videoScale);
 
@@ -69,9 +69,9 @@ void captureEvent(Capture video) {
   leftRegion.motionBetween(videoMirror, prevFrame);
   
   if (rightRegion.hasMoved()) {
-    game.Player.moveRight(2);
+    game.Player.moveRight(4);
   } else if (leftRegion.hasMoved()) {
-    game.Player.moveLeft(2);
+    game.Player.moveLeft(4);
   }
   game.checkEndGame();
 }

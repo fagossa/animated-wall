@@ -3,7 +3,7 @@ class EntitiesManager {
   public Player Player;
   public ArrayList<Enemy> Enemies;
   public ArrayList<Missile> Missiles;
-  private int _maxMissileCount = 4;
+  private int _maxMissileCount = 20;
   private int _lastMissileSpawn;
 
   private SoundFile endGameSound;
@@ -34,8 +34,8 @@ class EntitiesManager {
     Enemies.add(new Enemy(width / 2 + 20, 50, 40));
 
     Player = new Player(
-      18, 45, //pos
-      18, 57, // max x pos
+      20, 100, //pos
+      20, 140, // max x pos
       videoScale);
 
     Missiles = new ArrayList<Missile>();
