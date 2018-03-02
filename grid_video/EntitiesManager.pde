@@ -28,16 +28,21 @@ class EntitiesManager {
     Missiles = new ArrayList<Missile>();
     
     gameOver = false;
+    if(endGameSound.isPlaying()>0) {
+      endGameSound.stop();
+    }
   }
   
   void checkEndGame() {
-    int count = 0;
-    for (Enemy enemy : Enemies) {
-      count += enemy.isFull() ? 1 : 0;
-    }
-    if (count == Enemies.size()) {
-      gameOver = true;
-      //endGameSound.play();
+    if (!gameOver) {
+      int count = 0;
+      for (Enemy enemy : Enemies) {
+        count += enemy.isFull() ? 1 : 0;
+      }
+      if (count == Enemies.size()) {
+        gameOver = true;
+        endGameSound.play();
+      }
     }
   }
   
