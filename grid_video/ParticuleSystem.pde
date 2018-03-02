@@ -19,7 +19,6 @@ class ParticleSystem {
       Particle p = particles.get(i);
       p.run();
       if (p.isDead()) {
-        println("is dead particule", i);
         particles.remove(i);
       }
     }
