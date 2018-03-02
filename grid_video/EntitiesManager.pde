@@ -1,18 +1,23 @@
- class EntitiesManager {
+class EntitiesManager {
 
   public Player Player;
   public ArrayList<Enemy> Enemies;
   public ArrayList<Missile> Missiles;
   private int _maxMissileCount = 4;
   private int _lastMissileSpawn;
+
   private SoundFile endGameSound;
   private SoundFile explosionSound;
+  private SoundFile hitSound;
+
   private boolean gameOver = false;
   private Timer timer;
 
-  public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound) {
+  public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound, SoundFile hitSound) {
      this.endGameSound = endGameSound;
      this.explosionSound = explosionSound;
+     this.hitSound = hitSound;
+
      Enemies = new ArrayList<Enemy>();
 
      timer = new Timer(new Point(width - 98, 5));
@@ -140,19 +145,19 @@
     ArrayList<Missile> toRemove = new ArrayList<Missile>();
     // Check missiles hitboxes
     for (Missile missile : Missiles) {
-      if (missile.Top.Y <= 0 || missile.Top.X <= 0 
+      if (missile.Top.Y <= 0 || missile.Top.X <= 0
       || missile.Top.X >= width || missile.Top.Y >= height) {
         explosionSound.play();
         toRemove.add(missile);
         continue;
       }
-      if (missile.hitResult != null && missile.hitResult.HitPoint.Y >= missile.Top.Y) {
+      if (missile.missed()) {
         if (missile.hitResult.HitEnemy.isFull()) {
           missile.rebound();
         }
         else {
           missile.hitResult.HitEnemy.onHit();
-          explosionSound.play();
+          hitSound.play();
           toRemove.add(missile);
         }
       }
@@ -176,7 +181,7 @@
     rect(0, height / 2 - 65, width, 100);
 
     // foreground
-    fill(color(255, 255, 0));
+    fill(random(255), random(255), random(255));
     stroke(0);
     textSize(52);
     String text = timer.score() + " points";
