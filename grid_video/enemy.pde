@@ -56,4 +56,8 @@ class Enemy {
       level += 20;
   }
   
+  boolean isHittingEnemy(Point point) {
+    return (this.topRight.X >= point.X && this.topLeft.X <= point.X && this.bottomRight.Y >= point.Y);
+  }
+  
 }

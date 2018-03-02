@@ -17,24 +17,20 @@ class MotionRegion {
     this.videoScale = videoScale;
   }
   
-  void motionBetween(Capture video, PImage prevFrame) {
-    for (int i = x1; i < x1 + w; i++) { // columns
-      for (int j = y1; j < y1 + h; j++) { // rows
-        int k = k(i, j, video);
-        motions[k] = motionAt(k, video, prevFrame);
-      }
-    }
-    
+  void motionBetween(PImage currFrame, PImage prevFrame) {
     double motionAmount = 0;
     for (int i = x1; i < x1 + w; i++) { // columns
       for (int j = y1; j < y1 + h; j++) { // rows
-        motionAmount += motions[k(i, j, video)];
+        int k = k(i, j, currFrame);
+        motions[k] = motionAt(k, currFrame, prevFrame);
+        motionAmount += motions[k(i, j, currFrame)];
       }
     }
+    //println(motionAmount);
     this.moved = motionAmount / (w * h) > threshold;
   }
   
-  float motionAt(int k, Capture video, PImage prevFrame) {
+  float motionAt(int k, PImage video, PImage prevFrame) {
     // Step 2, what is the current color
     color current = video.pixels[k];
   
@@ -56,8 +52,8 @@ class MotionRegion {
       r2, g2, b2);
   }
   
-  int k(int i, int j, Capture video) {
-    return i + (j * video.width);
+  int k(int i, int j, PImage img) {
+    return i + (j * img.width);
   }
   
   boolean hasMoved() {
@@ -76,6 +72,8 @@ class MotionRegion {
       w * videoScale, 
       h * videoScale
     );
+    
+    fill(color(255, 0, 0));
   }
 }
 
