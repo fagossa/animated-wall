@@ -30,8 +30,8 @@ class EntitiesManager {
     _lastMissileSpawn = 0;
 
     Enemies.clear();
-    Enemies.add(new Enemy(width / 2 - 40, 50, 40));
-    Enemies.add(new Enemy(width / 2 + 20, 50, 40));
+    Enemies.add(new Enemy(width / 2 - 80, 50, 80));
+    Enemies.add(new Enemy(width / 2 + 40, 50, 80));
 
     Player = new Player(
       20, 100, //pos
