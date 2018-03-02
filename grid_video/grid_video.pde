@@ -44,7 +44,7 @@ void setup() {
     video.pixels.length,
     videoScale);
 
-  _entitiesManager = new EntitiesManager(new SoundFile(this, "end-game.mp3"));
+  _entitiesManager = new EntitiesManager(new SoundFile(this, "end-game.mp3"), new SoundFile(this, "explosion.mp3"));
   _entitiesManager.setup();
 }
 
