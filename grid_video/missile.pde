@@ -14,7 +14,7 @@ class Missile{
     _videoScale = videoScale;
     x *= _videoScale;
     y *= _videoScale;
-    Top = new Point(x, y - 40);
+    Top = new Point(x, y - 20);
     Right = new Point(x + 10, y - 10);
     Bottom = new Point(x, y);
     Left = new Point(x - 10, y - 10);
