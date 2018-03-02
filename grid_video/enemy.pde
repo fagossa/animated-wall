@@ -1,7 +1,7 @@
 class Enemy {
   private float x1, y1, w;
   private float level = 0;
-  private float h = 100;
+  private float h = 200;
 
   public Point topLeft;
   public Point topRight;
