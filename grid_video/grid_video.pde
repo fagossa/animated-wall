@@ -91,6 +91,8 @@ void keyPressed() {
 
 void draw() {
   drawAllCells();
+  fill(0,120); 
+  rect(0,0,640,480);
   rightRegion.draw();
   leftRegion.draw();
   
@@ -111,7 +113,7 @@ void drawCell(int i, int j) {
 
   color c = videoMirror.pixels[i + j * videoMirror.width];
   
-  fill(c,100);
+  fill(c);
   stroke(1);
   rect(x, y, videoScale, videoScale);
 }
