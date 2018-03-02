@@ -51,15 +51,19 @@ class EntitiesManager {
 
   void checkEndGame() {
     if (!gameOver) {
-      int count = 0;
-      for (Enemy enemy : Enemies) {
-        count += enemy.isFull() ? 1 : 0;
-      }
-      if (count == Enemies.size()) {
+      if (timer.isOver()) {
         gameOver = true;
-        timer.stop();
-        endGameSound.play();
-        nbParticules = 200;
+      } else {
+        int count = 0;
+        for (Enemy enemy : Enemies) {
+          count += enemy.isFull() ? 1 : 0;
+        }
+        if (count == Enemies.size()) {
+          gameOver = true;
+          timer.stop();
+          endGameSound.play();
+          nbParticules = 200;
+        }
       }
     }
   }
