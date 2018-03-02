@@ -60,6 +60,6 @@ class Enemy {
   }
 
   boolean isHittingEnemy(Point point) {
-    return (this.topRight.X >= point.X && this.topLeft.X <= point.X && this.bottomRight.Y >= point.Y);
+    return (this.topRight.X >= point.X && this.bottomLeft.X <= point.X && this.bottomRight.Y >= point.Y);
   }
 }

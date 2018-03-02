@@ -16,13 +16,7 @@ PImage prevFrame;
 
 MotionRegion rightRegion;
 MotionRegion leftRegion;
-
-ArrayList<Enemy> _enemies;
-
-Player player;
-ArrayList<Missile> _missiles;
-int _maxMissileCount = 4;
-int _lastMissileSpawn = 0; 
+EntitiesManager _entitiesManager;
 
 // ----
 void setup() {
@@ -48,17 +42,9 @@ void setup() {
     70, 50, 10, 10, 
     video.pixels.length,
     videoScale);
-
-  _enemies = new ArrayList<Enemy>();
-  _enemies.add(new Enemy(width / 2 - 40, 50, 40));
-  _enemies.add(new Enemy(width / 2 + 20, 50, 40));
-  
-  player = new Player(
-    10, 45, //pos
-    10, 60, // max x pos
-    videoScale);
-
-  _missiles = new ArrayList<Missile>();
+    
+    _entitiesManager = new EntitiesManager();
+    _entitiesManager.InitializeEntities();
 }
 
 void captureEvent(Capture video) {
@@ -75,9 +61,9 @@ void captureEvent(Capture video) {
   leftRegion.motionBetween(videoMirror, prevFrame);
   
   if (rightRegion.hasMoved()) {
-    player.moveRight(2);
+    _entitiesManager.Player.moveRight(2);
   } else if (leftRegion.hasMoved()) {
-    player.moveLeft(2);
+    _entitiesManager.Player.moveLeft(2);
   }
 }
 
@@ -92,6 +78,13 @@ void flipVideo(Capture video, PImage videoMirror) {
   videoMirror.updatePixels();
 }
 
+// Game reset
+void keyPressed() {
+  if (key == 'n') {
+      _entitiesManager.InitializeEntities();
+    }
+}
+
 void draw() {
   background(0);
   
@@ -99,14 +92,10 @@ void draw() {
   rightRegion.draw();
   leftRegion.draw();
   
-  player.draw();
-  
-  drawAllEnemies();
-  trySpawnMissile();
-  moveAllMissiles();
-  checkHitboxes();
-
-  drawAllMissiles();
+  _entitiesManager.DrawPlayer();
+  _entitiesManager.DrawAllEnemies();
+  _entitiesManager.SpawnAndMoveMissiles();
+  _entitiesManager.DrawAllMissiles();
 }
 
 void drawAllCells() {
@@ -128,53 +117,4 @@ void drawCell(int i, int j) {
   fill(c);
   stroke(0);
   rect(x, y, videoScale, videoScale);
-}
-
-void drawAllEnemies() {
-  for (Enemy enemy : _enemies) {
-    enemy.draw();
-  }
-}
-
-void moveAllMissiles() {
-  for (Missile missile : _missiles) {
-    missile.move();
-  }
-}
-
-void drawAllMissiles() {
-  for (Missile missile : _missiles) {
-    missile.draw();
-  }
-}
-
-void trySpawnMissile() {
-  if (_missiles.size() < _maxMissileCount && abs(_lastMissileSpawn - millis()) > 1000) {
-    _missiles.add(new Missile(player.x, player.y, videoScale));
-    _lastMissileSpawn = millis();
-  }
-}
-
-void checkHitboxes() {
-  ArrayList<Missile> toRemove = new ArrayList<Missile>();
-  // Check missiles hitboxes
-  for (Missile missile : _missiles) {
-    if (missile.Top.Y <= 0) {
-      toRemove.add(missile);
-      continue;
-    }
-    for (Enemy enemy : _enemies) {
-      if (enemy.isHittingEnemy(missile.Top)) {
-        enemy.onHit();
-        toRemove.add(missile);
-        continue;
-      }
-    }
-  }
-  
-  // Remove all missiles that hit
-  for (Missile missile : toRemove) {
-    _missiles.remove(missile);
-    //missile.kill();
-  }
 }
