@@ -28,11 +28,14 @@ class Timer {
     int nbMillis = currentTime - nbSeconds * 1000;
     
     String text = nf(nbSeconds, 2) + "." + nf(nbMillis, 3);
+    
+    fill(255,255,255);
+    rect(this.position.X, this.position.Y, 91, 28, 6); 
 
     fill(0);
     stroke(0);
-    textSize(32);
-    text(text, position.X, position.Y); 
+    textSize(24);
+    text(text, position.X + 4, position.Y + 23); 
   }
 
 

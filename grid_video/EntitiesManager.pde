@@ -15,7 +15,7 @@ class EntitiesManager {
      this.explosionSound = explosionSound;
      Enemies = new ArrayList<Enemy>();
      
-     timer = new Timer(new Point(width - 120, 30));
+     timer = new Timer(new Point(width - 98, 5));
      timer.start();
   }
   
