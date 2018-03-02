@@ -39,6 +39,9 @@ class EntitiesManager {
     }
     timer.stop();
     timer.start();
+    
+    ps = new ParticleSystem(new PVector(width/2, 50));
+
   }
   
   void checkEndGame() {
@@ -51,6 +54,7 @@ class EntitiesManager {
         gameOver = true;
         timer.stop();
         endGameSound.play();
+        nbParticules = 200;
       }
     }
   }
@@ -123,6 +127,12 @@ class EntitiesManager {
   }
   
   private void drawGameOver() {
+    if (nbParticules > 0) {
+      ps.addParticle();
+      nbParticules--;
+    }
+    ps.run();
+
     fill(color(10, 171, 118));
     stroke(0);
     textSize(52);

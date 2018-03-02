@@ -12,6 +12,9 @@ int cols, rows;
 Capture video;
 PImage videoMirror;
 
+ParticleSystem ps;
+int nbParticules = 200;
+
 // Previous Frame
 PImage prevFrame;
 
