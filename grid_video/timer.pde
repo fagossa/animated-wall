@@ -16,6 +16,10 @@ class Timer {
   void stop() {
     endTime = millis();
   }
+  
+  int score() {
+    return endTime;
+  }
 
   void draw() {
     int currentTime = (endTime > 0 ? endTime : millis()) - startTime;

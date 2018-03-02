@@ -7,10 +7,14 @@ class EntitiesManager {
   private int _lastMissileSpawn;
   private SoundFile endGameSound;
   private boolean gameOver = false;
+  private Timer timer;
 
   public EntitiesManager(SoundFile endGameSound) {
-      this.endGameSound = endGameSound;
-      Enemies = new ArrayList<Enemy>();
+     this.endGameSound = endGameSound;
+     Enemies = new ArrayList<Enemy>();
+     
+     timer = new Timer(new Point(width - 120, 30));
+     timer.start();
   }
   
   public void setup() {
@@ -31,6 +35,8 @@ class EntitiesManager {
     if(endGameSound.isPlaying()>0) {
       endGameSound.stop();
     }
+    timer.stop();
+    timer.start();
   }
   
   void checkEndGame() {
@@ -41,6 +47,7 @@ class EntitiesManager {
       }
       if (count == Enemies.size()) {
         gameOver = true;
+        timer.stop();
         endGameSound.play();
       }
     }
@@ -49,8 +56,11 @@ class EntitiesManager {
   void draw() {
     Player.draw();
     drawAllEnemies();
+    timer.draw();
     
-    if (!gameOver) {
+    if (gameOver) {
+      drawGameOver();
+    } else {
       spawnAndMoveMissiles();
       drawAllMissiles();
     }
@@ -107,5 +117,14 @@ class EntitiesManager {
     for (Missile missile : toRemove) {
       Missiles.remove(missile);
     }
+  }
+  
+  private void drawGameOver() {
+    fill(color(10, 171, 118));
+    stroke(0);
+    textSize(52);
+    String text = timer.score() + " points";
+    int offset = text.length() * 15;
+    text(text, width / 2 - offset, height / 2); 
   }
 }

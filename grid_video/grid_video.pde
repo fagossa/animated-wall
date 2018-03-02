@@ -19,8 +19,6 @@ MotionRegion rightRegion;
 MotionRegion leftRegion;
 EntitiesManager _entitiesManager;
 
-Timer timer;
-
 // ----
 void setup() {
   size(640, 480);
@@ -46,11 +44,8 @@ void setup() {
     video.pixels.length,
     videoScale);
 
-   _entitiesManager = new EntitiesManager(new SoundFile(this, "end-game.mp3"));
-   _entitiesManager.setup();
-   
-   timer = new Timer(new Point(width - 120, 30));
-   timer.start();
+  _entitiesManager = new EntitiesManager(new SoundFile(this, "end-game.mp3"));
+  _entitiesManager.setup();
 }
 
 void captureEvent(Capture video) {
@@ -89,7 +84,6 @@ void flipVideo(Capture video, PImage videoMirror) {
 void keyPressed() {
   if (key == 'n') {
       _entitiesManager.setup();
-      timer.start();
   }
 }
 
@@ -101,7 +95,6 @@ void draw() {
   leftRegion.draw();
   
   _entitiesManager.draw();
-  timer.draw();
 }
 
 void drawAllCells() {
