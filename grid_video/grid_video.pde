@@ -79,9 +79,6 @@ void captureEvent(Capture video) {
   } else if (leftRegion.hasMoved()) {
     player.moveLeft(2);
   }
-  
-  checkHitboxes();
-  moveAllMissiles();
 }
 
 void flipVideo(Capture video, PImage videoMirror) {
@@ -106,6 +103,9 @@ void draw() {
   
   drawAllEnemies();
   trySpawnMissile();
+  moveAllMissiles();
+  checkHitboxes();
+
   drawAllMissiles();
 }
 
@@ -144,7 +144,7 @@ void moveAllMissiles() {
 
 void drawAllMissiles() {
   for (Missile missile : _missiles) {
-    //missile.draw();   // TODO: uncomment
+    missile.draw();
   }
 }
 
@@ -175,5 +175,6 @@ void checkHitboxes() {
   // Remove all missiles that hit
   for (Missile missile : toRemove) {
     _missiles.remove(missile);
+    //missile.kill();
   }
 }
