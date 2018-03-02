@@ -62,7 +62,6 @@ class MotionRegion {
   }
  
   void draw() {
-    //color c = moved ? color(255, 0, 0) : color(100, 100, 100);
     for (int radius=10;radius<100 ; radius+=20){
       drawCircle(x1,y1,radius,moved);
     }
