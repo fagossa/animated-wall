@@ -45,7 +45,14 @@ class Missile{
     }
   }
   
-  boolean missed() {
+  boolean missedTarget() {
+    return this.Top.Y <= 0 || 
+      this.Top.X <= 0 || 
+      this.Top.X >= width || 
+      this.Top.Y >= height;
+  }
+  
+  boolean hasHit() {
     return this.hitResult != null && this.hitResult.HitPoint.Y >= this.Top.Y;
   }
   

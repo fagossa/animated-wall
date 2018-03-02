@@ -149,15 +149,13 @@ class EntitiesManager {
 
   private void checkHitboxes() {
     ArrayList<Missile> toRemove = new ArrayList<Missile>();
-    // Check missiles hitboxes
     for (Missile missile : Missiles) {
-      if (missile.Top.Y <= 0 || missile.Top.X <= 0
-      || missile.Top.X >= width || missile.Top.Y >= height) {
+      if (missile.missedTarget()) {
         explosionSound.play();
         toRemove.add(missile);
         continue;
       }
-      if (missile.missed()) {
+      if (missile.hasHit()) {
         if (missile.hitResult.HitEnemy.isFull()) {
           reboundSound.play();
           missile.rebound();
