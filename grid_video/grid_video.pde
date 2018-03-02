@@ -21,8 +21,6 @@ EntitiesManager _entitiesManager;
 
 Timer timer;
 
-SoundFile endGameSound;
-
 // ----
 void setup() {
   size(640, 480);
@@ -33,8 +31,6 @@ void setup() {
 
   video = new Capture(this, 80, 60);
   video.start();
-  
-  endGameSound = new SoundFile(this, "end-game.mp3");
   
   // Create an empty image the same size as the video
   videoMirror = createImage(video.width, video.height, RGB);
@@ -50,10 +46,11 @@ void setup() {
     video.pixels.length,
     videoScale);
 
-    _entitiesManager = new EntitiesManager();
-    _entitiesManager.setup();
-    timer = new Timer(new Point(width - 120, 30));
-    timer.start();
+   _entitiesManager = new EntitiesManager(new SoundFile(this, "end-game.mp3"));
+   _entitiesManager.setup();
+   
+   timer = new Timer(new Point(width - 120, 30));
+   timer.start();
 }
 
 void captureEvent(Capture video) {
@@ -74,6 +71,7 @@ void captureEvent(Capture video) {
   } else if (leftRegion.hasMoved()) {
     _entitiesManager.Player.moveLeft(2);
   }
+  _entitiesManager.checkEndGame();
 }
 
 void flipVideo(Capture video, PImage videoMirror) {
@@ -92,7 +90,7 @@ void keyPressed() {
   if (key == 'n') {
       _entitiesManager.setup();
       timer.start();
-    }
+  }
 }
 
 void draw() {

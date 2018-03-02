@@ -4,14 +4,19 @@ class EntitiesManager {
   public ArrayList<Enemy> Enemies;
   public ArrayList<Missile> Missiles;
   private int _maxMissileCount = 4;
-  private int _lastMissileSpawn; 
+  private int _lastMissileSpawn;
+  private SoundFile endGameSound;
+  private boolean gameOver = false;
 
-  public EntitiesManager() {
+  public EntitiesManager(SoundFile endGameSound) {
+      this.endGameSound = endGameSound;
+      Enemies = new ArrayList<Enemy>();
   }
   
   public void setup() {
     _lastMissileSpawn = 0;
-    Enemies = new ArrayList<Enemy>();
+    
+    Enemies.clear();
     Enemies.add(new Enemy(width / 2 - 40, 50, 40));
     Enemies.add(new Enemy(width / 2 + 20, 50, 40));
     
@@ -21,13 +26,29 @@ class EntitiesManager {
       videoScale);
   
     Missiles = new ArrayList<Missile>();
+    
+    gameOver = false;
+  }
+  
+  void checkEndGame() {
+    int count = 0;
+    for (Enemy enemy : Enemies) {
+      count += enemy.isFull() ? 1 : 0;
+    }
+    if (count == Enemies.size()) {
+      gameOver = true;
+      //endGameSound.play();
+    }
   }
   
   void draw() {
     Player.draw();
     drawAllEnemies();
-    spawnAndMoveMissiles();
-    drawAllMissiles();
+    
+    if (!gameOver) {
+      spawnAndMoveMissiles();
+      drawAllMissiles();
+    }
   }
   
   private void spawnAndMoveMissiles() {

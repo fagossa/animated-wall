@@ -54,6 +54,10 @@ class Enemy {
     level = 0;
   }
 
+  boolean isFull() {
+    return this.level >= 100;
+  }
+
   void onHit() {
     if (level <100)
       level += 20;
