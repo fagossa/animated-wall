@@ -70,8 +70,7 @@ void captureEvent(Capture video) {
 }
 
 void flipVideo(Capture video, PImage videoMirror) {
-   video.loadPixels();
-  //Mirroring the video
+  video.loadPixels();
   for(int x = 0; x < video.width; x++){
     for(int y = 0; y < video.height; y++){
       videoMirror.pixels[x + y * video.width] = video.pixels[(video.width - (x + 1)) + y * video.width];
@@ -88,8 +87,6 @@ void keyPressed() {
 }
 
 void draw() {
-  background(0);
-  
   drawAllCells();
   rightRegion.draw();
   leftRegion.draw();
@@ -105,12 +102,10 @@ void drawAllCells() {
   }
 }
 
-// Scaling up to draw a rectangle at (x,y)
 void drawCell(int i, int j) {
   int x = i*videoScale;
   int y = j*videoScale;
 
-  // looking up the appropriate color in the pixel array
   color c = videoMirror.pixels[i + j * videoMirror.width];
   
   fill(c);
