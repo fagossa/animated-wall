@@ -114,6 +114,6 @@ void drawCell(int i, int j) {
   color c = videoMirror.pixels[i + j * videoMirror.width];
   
   fill(c);
-  stroke(0);
+  stroke(1);
   rect(x, y, videoScale, videoScale);
 }

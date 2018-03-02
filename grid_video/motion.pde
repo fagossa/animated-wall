@@ -4,6 +4,7 @@ class MotionRegion {
   private int x1,  y1,  w,  h;
   private float[] motions;
   private int videoScale;
+  private color circleColor = color(0, 138, 253);
   
   private float threshold = 20; // How different must a pixel be to be a "motion" pixel
   private boolean moved = false;
@@ -61,25 +62,23 @@ class MotionRegion {
   }
  
   void draw() {
-    color c = moved ? color(255, 255, 255) : color(0, 0, 0);
-    
-    fill(c);
-    stroke(0);
-  
-    ellipse(
-      x1 * videoScale, 
-      y1 * videoScale, 
-      w * videoScale, 
-      h * videoScale
-    );
-    
-    fill(color(255, 0, 0));
+    //color c = moved ? color(255, 0, 0) : color(100, 100, 100);
+    for (int radius=10;radius<100 ; radius+=20){
+      drawCircle(x1,y1,radius,moved);
+    }
   }
-}
 
-void printArr(float[] numbers) {
-  for (int i = 0; i < video.pixels.length; i ++ ) {
-    print(numbers[i] + " ");
+private void drawCircle(int x,int y, int radius,boolean fill){
+    strokeWeight(2);
+    stroke(circleColor); 
+    fill(circleColor,fill?200:0);
+    ellipse(
+      x * videoScale, 
+      y * videoScale, 
+      radius, 
+      radius 
+    );
+    strokeWeight(0);
   }
-  println(" ------------ ");
+
 }
