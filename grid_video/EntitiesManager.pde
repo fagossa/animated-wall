@@ -92,23 +92,24 @@ class EntitiesManager {
     }
   }
   
-  private void GetSmallestPointInList(ArrayList<Point> allPoints, Point interesection) {
-    for (Point point : allPoints) {
-      if (point.Y > interesection.Y) {
-        interesection.X = point.X;
-        interesection.Y = point.Y;
+  private void GetSmallestPointInList(ArrayList<HitResult> allHits, HitResult interesection) {
+    for (HitResult hit : allHits) {
+      if (hit.HitPoint.Y > interesection.HitPoint.Y) {
+        interesection.HitPoint.X = hit.HitPoint.X;
+        interesection.HitPoint.Y = hit.HitPoint.Y;
+        interesection.HitEnemy = hit.HitEnemy;
       }
     }
   }
   
-  private boolean GetIntersectionWithEnemies(Missile missile, Point intersection) {
+  private boolean GetIntersectionWithEnemies(Missile missile, HitResult intersection) {
     Segment missileToTop = new Segment(missile.Top, new Point (missile.Top.X, 0));
-    ArrayList<Point> allInterectionPoints = new ArrayList<Point>();
+    ArrayList<HitResult> allInterectionPoints = new ArrayList<HitResult>();
     for (Enemy enemy : Enemies) {
       for (Segment enemySegment : enemy.segments) {
         Point tmpIntersection = new Point(0,0);
         if (missileToTop.GetIntersectionPoint(enemySegment, tmpIntersection)) {
-          allInterectionPoints.add(tmpIntersection);
+          allInterectionPoints.add(new HitResult(tmpIntersection, enemy));
         }
       }
     }
@@ -122,9 +123,9 @@ class EntitiesManager {
   private void trySpawnMissile() {
     if (Missiles.size() < _maxMissileCount && abs(_lastMissileSpawn - millis()) > 1000) {
       Missile newMissile = new Missile(Player.x, Player.y, videoScale);
-      Point intersection = new Point(0,0);
+      HitResult intersection = new HitResult(new Point(0,0), null);
       if (GetIntersectionWithEnemies(newMissile, intersection)) {
-        printArray(intersection);
+        newMissile.hitResult = intersection;
       }
       Missiles.add(newMissile);
       _lastMissileSpawn = millis();
@@ -136,15 +137,14 @@ class EntitiesManager {
     // Check missiles hitboxes
     for (Missile missile : Missiles) {
       if (missile.Top.Y <= 0) {
+        explosionSound.play();
         toRemove.add(missile);
         continue;
       }
-      for (Enemy enemy : Enemies) {
-        if (enemy.isHittingEnemy(missile.Top)) {
-          enemy.onHit();
-          explosionSound.play();
-          toRemove.add(missile);
-        }
+      if (missile.hitResult.HitPoint.Y >= missile.Top.Y) {
+        missile.hitResult.HitEnemy.onHit();
+        explosionSound.play();
+        toRemove.add(missile);
       }
     }
     

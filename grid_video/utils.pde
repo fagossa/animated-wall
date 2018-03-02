@@ -8,6 +8,17 @@ class Point{
   public float Y;
 }
 
+  
+class HitResult {
+  Point HitPoint;
+  Enemy HitEnemy;
+  
+  public HitResult (Point hitPoint, Enemy enemy) {
+    HitPoint = hitPoint;
+    HitEnemy = enemy;
+  }
+}
+
 public class LineEquation
 {
     public float A;
@@ -36,11 +47,6 @@ public class Segment
     public LineEquation LineEquation;
     private double epsilon = 2.220446049250313E-16;
 
-    public double GetLength()
-    {
-        return sqrt(pow(this.APoint.X - this.BPoint.X, 2) + pow(this.APoint.Y - this.BPoint.Y, 2));
-    }
-
     public Segment(Point a, Point b)
     {
         APoint = a;
@@ -50,12 +56,12 @@ public class Segment
 
     public boolean IsVertical()
     {
-        return abs(this.APoint.X - this.BPoint.X) < 0;
+        return abs(this.APoint.X - this.BPoint.X) == 0;
     }
 
     public boolean IsHorizontal()
     {
-        return abs(this.APoint.Y - this.BPoint.Y) < epsilon;
+        return abs(this.APoint.Y - this.BPoint.Y) == 0;
     }
 
     public boolean IsParallel(Segment bSegment)
@@ -109,7 +115,6 @@ public class Segment
         {
             return false;
         }
-
         return true;
     }
 

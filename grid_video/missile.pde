@@ -1,6 +1,6 @@
 class Missile{
-
   
+  public HitResult hitResult;
   public Point Top;
   public Point Right;
   public Point Bottom;
