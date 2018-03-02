@@ -1,31 +1,56 @@
 class Timer {
   
+  private int initTimeout = 42 * 1000;
+  private int scoreMax = 100000;
+  private int scoreMin = 1000;
+  
   private Point position;
-  private int startTime;
-  private int endTime;
+  private int previousTime;  
+  private int timeout;
+  
+  private boolean isStop;
   
   Timer(Point position) {
     this.position = position;
   }
   
   void start() {
-    startTime = millis();
-    endTime = 0;
+    previousTime = millis();
+    timeout = initTimeout;
+    isStop = false;
   }
   
   void stop() {
-    endTime = millis();
+    updateTimeout();
+    isStop = true;
   }
   
   int score() {
-    return endTime;
+    int rate = ((scoreMax - scoreMin * 5) / initTimeout);
+    return timeout > 0 ? scoreMax - (initTimeout - timeout) * rate : scoreMin;
+  }
+  
+  boolean isOver() {
+    return timeout <= 0;
+  }
+  
+  void updateTimeout() {
+    
+    if (!isStop) {
+      int newTime = millis();
+      int diff = newTime - previousTime;
+      previousTime = newTime;
+      timeout -= diff;
+      if (timeout < 0)
+        timeout = 0;
+    }
   }
 
   void draw() {
-    int currentTime = (endTime > 0 ? endTime : millis()) - startTime;
+    updateTimeout();
     
-    int nbSeconds = currentTime / 1000;
-    int nbMillis = currentTime - nbSeconds * 1000;
+    int nbSeconds = timeout / 1000;
+    int nbMillis = timeout - nbSeconds * 1000;
     
     String text = nf(nbSeconds, 2) + "." + nf(nbMillis, 3);
     
@@ -33,7 +58,8 @@ class Timer {
     rect(this.position.X, this.position.Y, 91, 28, 6); 
 
     fill(0);
-    stroke(0);
+    if (timeout <= 5000)
+      fill(255, 0, 0);
     textSize(24);
     text(text, position.X + 4, position.Y + 23); 
   }
