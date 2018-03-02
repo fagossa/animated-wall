@@ -69,9 +69,9 @@ void captureEvent(Capture video) {
   leftRegion.motionBetween(videoMirror, prevFrame);
   
   if (rightRegion.hasMoved()) {
-    game.Player.moveRight(4);
+    game.Player.moveRight(2);
   } else if (leftRegion.hasMoved()) {
-    game.Player.moveLeft(4);
+    game.Player.moveLeft(2);
   }
   game.checkEndGame();
 }
