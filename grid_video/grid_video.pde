@@ -22,7 +22,9 @@ ArrayList<Enemy> _enemies;
 Player player;
 ArrayList<Missile> _missiles;
 int _maxMissileCount = 4;
-int _lastMissileSpawn = 0; 
+int _lastMissileSpawn = 0;
+
+Timer timer;
 
 // ----
 void setup() {
@@ -59,6 +61,9 @@ void setup() {
     videoScale);
 
   _missiles = new ArrayList<Missile>();
+  
+  timer = new Timer(new Point(width - 120, 30));
+  timer.start();
 }
 
 void captureEvent(Capture video) {
@@ -107,6 +112,8 @@ void draw() {
   checkHitboxes();
 
   drawAllMissiles();
+  
+  timer.draw();
 }
 
 void drawAllCells() {
