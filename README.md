@@ -1,3 +1,3 @@
 # animated-wall
 
-This projhect is an small game made in *processing*
+This project is a small game made in *processing*
