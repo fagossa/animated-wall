@@ -20,7 +20,7 @@ PImage prevFrame;
 
 MotionRegion rightRegion;
 MotionRegion leftRegion;
-EntitiesManager _entitiesManager;
+EntitiesManager game;
 
 // ----
 void setup() {
@@ -47,8 +47,11 @@ void setup() {
     video.pixels.length,
     videoScale);
 
-  _entitiesManager = new EntitiesManager(new SoundFile(this, "end-game.mp3"), new SoundFile(this, "explosion.mp3"));
-  _entitiesManager.setup();
+  game = new EntitiesManager(
+    new SoundFile(this, "end-game.mp3"), 
+    new SoundFile(this, "explosion.mp3"),
+    new SoundFile(this, "hit.mp3"));
+  game.setup();
 }
 
 void captureEvent(Capture video) {
@@ -65,11 +68,11 @@ void captureEvent(Capture video) {
   leftRegion.motionBetween(videoMirror, prevFrame);
   
   if (rightRegion.hasMoved()) {
-    _entitiesManager.Player.moveRight(2);
+    game.Player.moveRight(2);
   } else if (leftRegion.hasMoved()) {
-    _entitiesManager.Player.moveLeft(2);
+    game.Player.moveLeft(2);
   }
-  _entitiesManager.checkEndGame();
+  game.checkEndGame();
 }
 
 void flipVideo(Capture video, PImage videoMirror) {
@@ -85,7 +88,7 @@ void flipVideo(Capture video, PImage videoMirror) {
 // Game reset
 void keyPressed() {
   if (key == 'n') {
-      _entitiesManager.setup();
+      game.setup();
   }
 }
 
@@ -96,7 +99,7 @@ void draw() {
   rightRegion.draw();
   leftRegion.draw();
   
-  _entitiesManager.draw();
+  game.draw();
 }
 
 void drawAllCells() {

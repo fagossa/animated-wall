@@ -5,14 +5,19 @@ class EntitiesManager {
   public ArrayList<Missile> Missiles;
   private int _maxMissileCount = 4;
   private int _lastMissileSpawn;
+  
   private SoundFile endGameSound;
   private SoundFile explosionSound;
+  private SoundFile hitSound;
+  
   private boolean gameOver = false;
   private Timer timer;
 
-  public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound) {
+  public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound, SoundFile hitSound) {
      this.endGameSound = endGameSound;
      this.explosionSound = explosionSound;
+     this.hitSound = hitSound;
+     
      Enemies = new ArrayList<Enemy>();
 
      timer = new Timer(new Point(width - 98, 5));
@@ -145,9 +150,9 @@ class EntitiesManager {
         toRemove.add(missile);
         continue;
       }
-      if (missile.hitResult != null && missile.hitResult.HitPoint.Y >= missile.Top.Y) {
+      if (missile.missed()) {
         missile.hitResult.HitEnemy.onHit();
-        explosionSound.play();
+        hitSound.play();
         toRemove.add(missile);
       }
     }

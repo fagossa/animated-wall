@@ -25,6 +25,10 @@ class Missile{
     this.Left.Y -= speedFactor * _videoScale;
   }
   
+  boolean missed() {
+    return this.hitResult != null && this.hitResult.HitPoint.Y >= this.Top.Y;
+  }
+  
   void draw() {
     fill(0, 138, 253);
     quad(Top.X, Top.Y, Right.X, Right.Y, Bottom.X, Bottom.Y, Left.X, Left.Y);
