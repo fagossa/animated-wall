@@ -177,12 +177,3 @@ void checkHitboxes() {
     _missiles.remove(missile);
   }
 }
-
-// Game reset
-void keyPressed() {
-  if (key == 'n') {
-    for (Enemy enemy : _enemies) {
-      enemy.reset();
-    }
-  }
-}
