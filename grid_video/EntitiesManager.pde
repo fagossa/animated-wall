@@ -175,7 +175,7 @@ class EntitiesManager {
     rect(0, height / 2 - 65, width, 100);
 
     // foreground
-    fill(color(255, 255, 0));
+    fill(random(255), random(255), random(255));
     stroke(0);
     textSize(52);
     String text = timer.score() + " points";

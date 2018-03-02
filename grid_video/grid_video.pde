@@ -94,12 +94,17 @@ void keyPressed() {
 
 void draw() {
   drawAllCells();
-  fill(0,120); 
-  rect(0,0,640,480);
+  drawBackground();
+  
   rightRegion.draw();
   leftRegion.draw();
   
   game.draw();
+}
+
+void drawBackground() {
+  fill(0, 120); 
+  rect(0,0, width, height);
 }
 
 void drawAllCells() {
