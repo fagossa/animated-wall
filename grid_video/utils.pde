@@ -14,5 +14,7 @@ void keyPressed() {
     for (Enemy enemy : _enemies) {
       enemy.reset();
     }
+
+    player.reset();
   }
 }
