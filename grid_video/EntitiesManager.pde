@@ -35,7 +35,7 @@ class EntitiesManager {
 
     Player = new Player(
       20, 100, //pos
-      20, 140, // max x pos
+      20, 130, // max x pos
       videoScale);
 
     Missiles = new ArrayList<Missile>();
