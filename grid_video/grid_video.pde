@@ -86,6 +86,7 @@ void flipVideo(Capture video, PImage videoMirror) {
 void keyPressed() {
   if (key == 'n') {
       _entitiesManager.InitializeEntities();
+      timer.start();
     }
 }
 
