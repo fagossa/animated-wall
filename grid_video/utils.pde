@@ -16,5 +16,6 @@ void keyPressed() {
     }
 
     player.reset();
+    timer.start();
   }
 }
