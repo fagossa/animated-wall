@@ -15,15 +15,15 @@ class EntitiesManager {
   private Timer timer;
 
   public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound, SoundFile hitSound, SoundFile reboundSound) {
-     this.endGameSound = endGameSound;
-     this.explosionSound = explosionSound;
-     this.hitSound = hitSound;
-     this.reboundSound = reboundSound;
+    this.endGameSound = endGameSound;
+    this.explosionSound = explosionSound;
+    this.hitSound = hitSound;
+    this.reboundSound = reboundSound;
 
-     Enemies = new ArrayList<Enemy>();
+    Enemies = new ArrayList<Enemy>();
 
-     timer = new Timer(new Point(width - 98, 5));
-     timer.start();
+    timer = new Timer(new Point(width - 98, 5));
+    timer.start();
   }
 
   public void setup() {
@@ -34,24 +34,24 @@ class EntitiesManager {
     Enemies.add(new Enemy(width / 2 + 40, 50, 80));
 
     Player = new Player(
-      20, 100, //pos
-      20, 130, // max x pos
+      100, 600, //pos
+      100, 1080, // max x pos
       videoScale);
 
     Missiles = new ArrayList<Missile>();
 
     gameOver = false;
-    if(endGameSound.isPlaying()>0) {
+    if (endGameSound.isPlaying()>0) {
       endGameSound.stop();
     }
     timer.stop();
     timer.start();
 
     ps = new ParticleSystem(new PVector(width/2, 50));
-
   }
 
   void checkEndGame() {
+  
     if (!gameOver) {
       if (timer.isOver()) {
         gameOver = true;
@@ -122,7 +122,7 @@ class EntitiesManager {
     ArrayList<HitResult> allInterectionPoints = new ArrayList<HitResult>();
     for (Enemy enemy : Enemies) {
       for (Segment enemySegment : enemy.segments) {
-        Point tmpIntersection = new Point(0,0);
+        Point tmpIntersection = new Point(0, 0);
         if (missileToTop.GetIntersectionPoint(enemySegment, tmpIntersection)) {
           allInterectionPoints.add(new HitResult(tmpIntersection, enemy));
         }
@@ -138,7 +138,7 @@ class EntitiesManager {
   private void trySpawnMissile() {
     if (Missiles.size() < _maxMissileCount && abs(_lastMissileSpawn - millis()) > 1000) {
       Missile newMissile = new Missile(Player.x, Player.y, videoScale);
-      HitResult intersection = new HitResult(new Point(0,0), null);
+      HitResult intersection = new HitResult(new Point(0, 0), null);
       if (GetIntersectionWithEnemies(newMissile, intersection)) {
         newMissile.hitResult = intersection;
       }
@@ -159,8 +159,7 @@ class EntitiesManager {
         if (missile.hitResult.HitEnemy.isFull()) {
           reboundSound.play();
           missile.rebound();
-        }
-        else {
+        } else {
           missile.hitResult.HitEnemy.onHit();
           hitSound.play();
           toRemove.add(missile);
