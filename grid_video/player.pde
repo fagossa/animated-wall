@@ -26,8 +26,8 @@ class Player {
   
   private void loadPlane(){
     plane=loadShape("warplane.svg");
-    this.shapeWidth=20*videoScale;
-    this.shapeHeight=20*videoScale;
+    this.shapeWidth=200*videoScale;
+    this.shapeHeight=200*videoScale;
     this.maxx=this.maxx + this.shapeWidth/(2*videoScale);
   }
   

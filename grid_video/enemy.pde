@@ -1,5 +1,5 @@
 class Enemy {
-  private float x1, y1, w;
+  private float startX, x1, y1, w;
   private float level = 0;
   private float h = 200;
 
@@ -12,8 +12,8 @@ class Enemy {
   public Enemy(float x1, float y1, float w) {
     this.x1 = x1;
     this.y1 = y1;
-    this.w = w;    
-
+    this.w = w; 
+    
     topLeft = new Point(x1, y1);
     topRight = new Point(x1 + w, y1);
     bottomLeft = new Point(x1 - w, y1 + h);

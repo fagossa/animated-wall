@@ -5,7 +5,7 @@ class Missile{
   public Point Right;
   public Point Bottom;
   public Point Left;
-  private float YspeedFactor = 4;
+  private float YspeedFactor = 10;
   private float XspeedFactor;
   private int _videoScale;
   private boolean _hasRebounded;
@@ -22,8 +22,8 @@ class Missile{
   
   void rebound() {
     _hasRebounded = true;
-    XspeedFactor = random(-4,4);
-    YspeedFactor = random(2,4);
+    XspeedFactor = random(-4,10);
+    YspeedFactor = random(2,10);
   }
 
   void move() {

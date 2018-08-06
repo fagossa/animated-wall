@@ -5,7 +5,7 @@ import processing.sound.*;
 // Size of each cell in the grid, ratio of window size to video size
 // 80 * 8 = 640
 // 60 * 8 = 480
-int videoScale = 8;
+int videoScale = 1;
 
 // Number of columns and rows in our system
 int cols, rows;
@@ -30,7 +30,15 @@ void setup() {
   cols = width/videoScale;
   rows = height/videoScale;
 
-  video = new Capture(this, 160, 120);
+  game = new EntitiesManager(
+    new SoundFile(this, "end-game.mp3"), 
+    new SoundFile(this, "explosion.mp3"),
+    new SoundFile(this, "hit.mp3"),
+    new SoundFile(this, "rebound.mp3"));
+  game.setup();
+
+//video = new Capture(this, 160, 120);
+  video = new Capture(this, 1280, 960);
   video.start();
   
   // Create an empty image the same size as the video
@@ -38,21 +46,14 @@ void setup() {
   prevFrame   = createImage(video.width, video.height, RGB);
   
   leftRegion = new MotionRegion(
-    10, 110, 10, 10, 
+    100, 850, 100, 100, 
     video.pixels.length,
     videoScale);
 
   rightRegion = new MotionRegion(
-    150, 110, 10, 10, 
+    1180, 850, 10, 10, 
     video.pixels.length,
     videoScale);
-
-  game = new EntitiesManager(
-    new SoundFile(this, "end-game.mp3"), 
-    new SoundFile(this, "explosion.mp3"),
-    new SoundFile(this, "hit.mp3"),
-    new SoundFile(this, "rebound.mp3"));
-  game.setup();
 }
 
 void captureEvent(Capture video) {
@@ -69,9 +70,9 @@ void captureEvent(Capture video) {
   leftRegion.motionBetween(videoMirror, prevFrame);
   
   if (rightRegion.hasMoved()) {
-    game.Player.moveRight(2);
+    game.Player.moveRight(15);
   } else if (leftRegion.hasMoved()) {
-    game.Player.moveLeft(2);
+    game.Player.moveLeft(15);
   }
   game.checkEndGame();
 }
@@ -94,7 +95,8 @@ void keyPressed() {
 }
 
 void draw() {
-  drawAllCells();
+  image(videoMirror, 0, 0);
+  //drawAllCells();
   drawBackground();
   
   rightRegion.draw();
