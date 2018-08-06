@@ -14,6 +14,9 @@ class EntitiesManager {
   private boolean gameOver = false;
   private Timer timer;
 
+  private boolean nmyDirection = true;
+  private int nmyOffset = 0;
+
   public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound, SoundFile hitSound, SoundFile reboundSound) {
      this.endGameSound = endGameSound;
      this.explosionSound = explosionSound;
@@ -72,7 +75,7 @@ class EntitiesManager {
 
   void draw() {
     Player.draw();
-    drawAllEnemies();
+    drawAndMoveAllEnemies();
     timer.draw();
 
     if (gameOver) {
@@ -89,8 +92,11 @@ class EntitiesManager {
     checkHitboxes();
   }
 
-  private void drawAllEnemies() {
+  private void drawAndMoveAllEnemies() {
+    nmyDirection = random(100)>85?!nmyDirection:nmyDirection;
+    nmyOffset = int(random(30));
     for (Enemy enemy : Enemies) {
+      enemy.move(nmyDirection?nmyOffset:-nmyOffset);
       enemy.draw();
     }
   }

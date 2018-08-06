@@ -30,6 +30,13 @@ void setup() {
   cols = width/videoScale;
   rows = height/videoScale;
 
+  game = new EntitiesManager(
+    new SoundFile(this, "end-game.mp3"), 
+    new SoundFile(this, "explosion.mp3"),
+    new SoundFile(this, "hit.mp3"),
+    new SoundFile(this, "rebound.mp3"));
+  game.setup();
+
   video = new Capture(this, 160, 120);
   video.start();
   
@@ -46,13 +53,6 @@ void setup() {
     150, 110, 10, 10, 
     video.pixels.length,
     videoScale);
-
-  game = new EntitiesManager(
-    new SoundFile(this, "end-game.mp3"), 
-    new SoundFile(this, "explosion.mp3"),
-    new SoundFile(this, "hit.mp3"),
-    new SoundFile(this, "rebound.mp3"));
-  game.setup();
 }
 
 void captureEvent(Capture video) {
