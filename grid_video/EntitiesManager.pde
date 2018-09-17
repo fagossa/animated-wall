@@ -16,6 +16,8 @@ class EntitiesManager {
 
   private boolean nmyDirection = true;
   private int nmyOffset = 0;
+  private int roundCount = 0;
+  private float roundsToChange = 500;
 
   public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound, SoundFile hitSound, SoundFile reboundSound) {
      this.endGameSound = endGameSound;
@@ -74,6 +76,7 @@ class EntitiesManager {
   }
 
   void draw() {
+    roundCount++;
     Player.draw();
     drawAndMoveAllEnemies();
     timer.draw();
@@ -93,8 +96,12 @@ class EntitiesManager {
   }
 
   private void drawAndMoveAllEnemies() {
-    nmyDirection = random(100)>85?!nmyDirection:nmyDirection;
-    nmyOffset = int(random(30));
+    if(random(roundsToChange)>(roundsToChange - roundCount)) {
+       nmyDirection = !nmyDirection;
+       roundCount = 0;
+       roundsToChange = random(200,800);
+    }
+    nmyOffset = int(random(10,20));
     for (Enemy enemy : Enemies) {
       enemy.move(nmyDirection?nmyOffset:-nmyOffset);
       enemy.draw();
