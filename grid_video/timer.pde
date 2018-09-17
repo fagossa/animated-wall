@@ -7,6 +7,7 @@ class Timer {
   private Point position;
   private int previousTime;  
   private int timeout;
+  private int hitScore = 0;
   
   private boolean isStop;
   
@@ -27,7 +28,8 @@ class Timer {
   
   int score() {
     int rate = ((scoreMax - scoreMin * 5) / initTimeout);
-    return timeout > 0 ? scoreMax - (initTimeout - timeout) * rate : scoreMin;
+    int timeScore = timeout > 0 ? scoreMax - (initTimeout - timeout) * rate : scoreMin;
+    return timeScore + hitScore;
   }
   
   boolean isOver() {
@@ -44,6 +46,10 @@ class Timer {
       if (timeout < 0)
         timeout = 0;
     }
+  }
+
+  void hit() {
+   hitScore += timeout;
   }
 
   void draw() {

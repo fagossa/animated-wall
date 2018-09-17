@@ -99,7 +99,7 @@ class EntitiesManager {
     if(random(roundsToChange)>(roundsToChange - roundCount)) {
        nmyDirection = !nmyDirection;
        roundCount = 0;
-       roundsToChange = random(200,800);
+       roundsToChange = random(400,800);
     }
     nmyOffset = int(random(10,20));
     for (Enemy enemy : Enemies) {
@@ -169,6 +169,7 @@ class EntitiesManager {
         continue;
       }
       if (missile.hasHit()) {
+        timer.hit();
         if (missile.hitResult.HitEnemy.isFull()) {
           reboundSound.play();
           missile.rebound();
