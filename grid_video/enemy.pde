@@ -34,10 +34,10 @@ class Enemy {
   void move(int offset) {
    
     if(this.x1<this.startX && this.startX-this.x1 > 500) {
-      this.x1 += abs(offset);
+      this.x1 += abs(offset*2);
     }
     else if (this.x1>this.startX && this.x1-this.startX > 500) {
-      this.x1 -= abs(offset);
+      this.x1 -= abs(offset*2);
     }
     else {
       this.x1+=offset;
