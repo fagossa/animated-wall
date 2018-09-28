@@ -1,6 +1,6 @@
 class Timer {
   
-  private int initTimeout = 42 * 1000;
+  private int initTimeout = 25 * 1000;
   private int scoreMax = 100000;
   private int scoreMin = 1000;
   

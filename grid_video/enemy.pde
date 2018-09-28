@@ -1,5 +1,5 @@
 class Enemy {
-  private float x1, y1, w;
+  private float startX, x1, y1, w;
   private float level = 0;
   private float h = 200;
 
@@ -10,10 +10,15 @@ class Enemy {
   public ArrayList<Segment> segments;
 
   public Enemy(float x1, float y1, float w) {
+    this.startX = x1;
     this.x1 = x1;
     this.y1 = y1;
     this.w = w;    
 
+    this.design();    
+  }
+
+  void design() {
     topLeft = new Point(x1, y1);
     topRight = new Point(x1 + w, y1);
     bottomLeft = new Point(x1 - w, y1 + h);
@@ -24,6 +29,21 @@ class Enemy {
     segments.add(new Segment(topRight, bottomRight));
     segments.add(new Segment(bottomRight, bottomLeft));
     segments.add(new Segment(bottomLeft, topLeft));
+  }
+
+  void move(int offset) {
+   
+    if(this.x1<this.startX && this.startX-this.x1 > 500) {
+      this.x1 += abs(offset*2);
+    }
+    else if (this.x1>this.startX && this.x1-this.startX > 500) {
+      this.x1 -= abs(offset*2);
+    }
+    else {
+      this.x1+=offset;
+    }
+    
+    this.design();
   }
 
   void draw() {

@@ -14,6 +14,12 @@ class EntitiesManager {
   private boolean gameOver = false;
   private Timer timer;
 
+  private boolean nmyDirection = true;
+  private int nmyOffset = 0;
+  private int roundCount = 0;
+  private float waitingRounds = 0;
+  private float roundsToChange = 500;
+
   public EntitiesManager(SoundFile endGameSound, SoundFile explosionSound, SoundFile hitSound, SoundFile reboundSound) {
      this.endGameSound = endGameSound;
      this.explosionSound = explosionSound;
@@ -71,8 +77,9 @@ class EntitiesManager {
   }
 
   void draw() {
+    roundCount++;
     Player.draw();
-    drawAllEnemies();
+    drawAndMoveAllEnemies();
     timer.draw();
 
     if (gameOver) {
@@ -89,9 +96,30 @@ class EntitiesManager {
     checkHitboxes();
   }
 
-  private void drawAllEnemies() {
-    for (Enemy enemy : Enemies) {
-      enemy.draw();
+  private void drawAndMoveAllEnemies() {
+    if(waitingRounds > 0)
+    {
+      waitingRounds--;
+      for (Enemy enemy : Enemies) {
+        enemy.draw();
+      }
+    } else if(random(100) < 2)
+    {
+      waitingRounds = random(5,10);
+      for (Enemy enemy : Enemies) {
+        enemy.draw();
+      }
+    } else {
+      if(random(roundsToChange)>(roundsToChange - roundCount)) {
+         nmyDirection = !nmyDirection;
+         roundCount = 0;
+         roundsToChange = random(200,800);
+      }
+      nmyOffset = int(random(10,20));
+      for (Enemy enemy : Enemies) {
+        enemy.move(nmyDirection?nmyOffset:-nmyOffset);
+        enemy.draw();
+      }
     }
   }
 
